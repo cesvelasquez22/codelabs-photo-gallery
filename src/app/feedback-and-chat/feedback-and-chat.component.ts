@@ -1,18 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-feedback-and-chat',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './feedback-and-chat.component.html',
-  styleUrls: ['./feedback-and-chat.component.scss']
+  styleUrls: ['./feedback-and-chat.component.scss'],
 })
-export class FeedbackAndChatComponent implements OnInit {
+export class FeedbackAndChatComponent {
+  private formBuilder = inject(FormBuilder);
 
-  constructor() { }
+  contactForm = this.formBuilder.group({
+    fullname: '',
+    email: '',
+    comments: '',
+  });
 
-  ngOnInit(): void {
+  showMsg: boolean = false;
+
+  onSubmit(): void {
+    console.log('Your feedback has been submitted', this.contactForm.value);
+    this.showMsg = true;
+    this.contactForm.reset();
   }
-
 }
